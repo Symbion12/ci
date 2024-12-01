@@ -28,8 +28,10 @@ jobs:
         run: |
           HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889)
           if [ "$HTTP_CODE" -ne 200 ]; then
-            echo "Expected HTTP 200 but got $HTTP_CODE"
+            echo "Ошибка HTTP не 200, $HTTP_CODE"
             exit 1
+	  else
+  	    echo "HTTP 200 OK"
           fi
 
       # Проверить MD5-сумму файла
