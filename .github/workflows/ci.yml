@@ -30,8 +30,8 @@ jobs:
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "Ошибка HTTP не 200, $HTTP_CODE"
             exit 1
-	  else
-  	    echo "HTTP 200 OK"
+          else
+            echo "HTTP 200 OK"
           fi
 
       # Проверить MD5-сумму файла
