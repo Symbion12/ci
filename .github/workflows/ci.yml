@@ -26,7 +26,7 @@ jobs:
       # Проверить, что Nginx возвращает код 200
       - name: Verify HTTP response
         run: |
-          HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889/404)
+          HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889)
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "Ошибка HTTP не 200, $HTTP_CODE"
             MESSAGE="HTTP не 200  $HTTP_CODE"
@@ -51,9 +51,14 @@ jobs:
           else
             echo "Checksum совпадает"  
           fi
-              
+      # Отправка уведомления в телеграм не успешной работе Job      
       - name: Notify on failure
         if: failure()
         run: |
           curl -s -X POST "https://api.telegram.org/bot7910991430:AAGa0u46FVrToCNddHdVY9kPVzUJG5CiAwc/sendMessage" -d chat_id=5031155088 -d text="Ошибка CI: Job ${{ github.job }} in ${{ github.repository }}"
-          
+       
+        # Удалить контейнер
+      - name: Clean up
+        run: |
+          docker stop nginx-test
+          docker rm nginx-test   
