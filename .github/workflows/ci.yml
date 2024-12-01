@@ -41,10 +41,10 @@ jobs:
           fi
 
       # Удалить контейнер
-      - name: Clean up
-        run: |
-          docker stop nginx-test
-          docker rm nginx-test
+#      - name: Clean up
+#        run: |
+#          docker stop nginx-test
+#          docker rm nginx-test
  
       - name: Notify
         if: failure()
