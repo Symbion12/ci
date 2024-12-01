@@ -29,9 +29,14 @@ jobs:
           HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889)
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "Ошибка HTTP не 200, $HTTP_CODE"
-            exit 1
+            MESSAGE="HTTP не 200  $HTTP_CODE"
+            echo "$MESSAGE"
+            curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d chat_id=5031155088 -d text="$MESSAGE" 
+           exit 1
           else
-            echo "HTTP 200 OK"
+            MESSAGE="HTTP 200 OK"
+            echo "$MESSAGE"
+            curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d chat_id=5031155088 -d text="$MESSAGE"
           fi
 
       # Проверить MD5-сумму файла
@@ -40,20 +45,16 @@ jobs:
           LOCAL_MD5=$(md5sum index.html | awk '{ print $1 }')
           SERVER_MD5=$(curl -s http://localhost:9889 | md5sum | awk '{ print $1 }')
           if [ "$LOCAL_MD5" != "$SERVER_MD5" ]; then
-            echo "MD5 checksum mismatch!"
+            echo "MD5 checksum несовпадает!"
             echo "Local: $LOCAL_MD5, Server: $SERVER_MD5"
             exit 1
+          else
+            echo "Checksum совпадает"  
           fi
-
-      # Удалить контейнер
-#      - name: Clean up
-#        run: |
-#          docker stop nginx-test
-#          docker rm nginx-test
- 
-      - name: Notify
-        if: failure()
-        run: |
+              
+      - name: Notify on failure
+          if: failure()
+          run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="Ошибка: Job ${{ github.job }} in ${{ github.repository }}"
+          -d chat_id=${{ secrets.5031155088 }} \
+          -d text="Ошибка CI: Job ${{ github.job }} in ${{ github.repository }}"
