@@ -26,7 +26,7 @@ jobs:
       # Проверить, что Nginx возвращает код 200
       - name: Verify HTTP response
         run: |
-          HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889)
+          HTTP_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:9889/404)
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "Ошибка HTTP не 200, $HTTP_CODE"
             MESSAGE="HTTP не 200  $HTTP_CODE"
