@@ -55,5 +55,5 @@ jobs:
       - name: Notify on failure
         if: failure()
         run: |
-          curl -s -X POST https://api.telegram.org/bot7910991430:AAGa0u46FVrToCNddHdVY9kPVzUJG5CiAwc/sendMessage" -d chat_id=5031155088 -d text="Ошибка CI: Job ${{ github.job }} in ${{ github.repository }}"
+          curl -s -X POST "https://api.telegram.org/bot7910991430:AAGa0u46FVrToCNddHdVY9kPVzUJG5CiAwc/sendMessage" -d chat_id=5031155088 -d text="Ошибка CI: Job ${{ github.job }} in ${{ github.repository }}"
           
