@@ -20,7 +20,7 @@ jobs:
       # Поднять контейнер с Nginx
       - name: Start Nginx container
         run: |
-          docker run -d --name nginx-test -p 9889:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.html nginx
+          docker run -d --name nginx-test -p 9889:80 -v ${{ github.workspace }}/index.html:/usr/share/nginx/html/index.htm1l nginx
           sleep 5
 
       # Проверить, что Nginx возвращает код 200
